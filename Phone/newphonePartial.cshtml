@@ -1,0 +1,25 @@
+﻿@using managermentSmartphone.Models;
+@*định nghĩa kiểu dữ liệu cho biến Model*@
+@model List<SmartPhone>
+
+<h1 class="item-header">New Phone</h1>
+@{
+    foreach (var item in Model)
+    {
+        <div class="activity-list-update">
+            <img src="@Url.Content("~/img/"+item.imageSmartphone)" width="50" height="50" alt="Image">
+            @if(item.nameSmartphone.Length >35)
+            {
+                <p><span title="@item.nameSmartphone">Title: @item.nameSmartphone.Substring(0,35)</span><br /><a href="@Url.Action("viewDetails", new { @codesmartPhone = item.codeSmartphone })">View More</a></p>
+            }
+            else 
+            { 
+                <p><span title="@item.nameSmartphone">Title: @item.nameSmartphone</span><br /><a href="@Url.Action("viewDetails", new { @codesmartPhone = item.codeSmartphone })">View More</a></p>
+                <div class="clear"></div>
+            }
+            
+        </div>
+    }
+}
+<a href="#" class="item-footer green"> See all activity</a>
+

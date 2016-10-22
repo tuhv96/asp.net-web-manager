@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/UseLayoutCss/screen.css" rel="stylesheet" />
+    <link href="~/Content/UseLayoutCss/fonts.css" rel="stylesheet" />
+    <link href="~/Content/UseLayoutCss/userCss.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome-4.6.2/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/NivoSlider/nivo-slider.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/NivoSlider/jquery.nivo.slider.js"></script>
+    <script src="~/NivoSlider/jquery.nivo.slider.pack.js"></script>
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+        @*nội dung các trang kế thừa trang chủ*@
+    <div id="allpage">
+        <section class="blank">
+            <div class="flash">
+                <div class="Phone">
+                    <i class="fa fa-mobile" aria-hidden="true"></i>
+                    (+84) 962-942-086
+                </div>
+                @*tạo một div đăng kí đăng nhập*@
+                <div class="LoginRegister">
+                    @*@Html.ActionLink("Register", "Register", null, new { @class = "Register"})
+                        <a href="Home/Register" class="Register" >Register</a>
+                        @Html.ActionLink("Login", "Login", null, new { @class = "Login" })
+                        <a href="Home/Login" class="Login">Login</a>*@
+                    <i class="fa fa-sign-in" aria-hidden="true"></i>
+                    @Html.ActionLink("Login", "Login", null, htmlAttributes: new { @class = "Login" })
+                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                    @Html.ActionLink("Register", "Register", null, htmlAttributes: new { @class = "Register" })
+                </div>
+            </div>
+            @*xáy dưng div menu*@
+            <div class="flash success" id="divmenu">
+                <div id="txtSearch">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.TextBox("txtSearch", "", htmlAttributes: new { @class = "txtBoxSearch", @placeholder = "Enter keywords to search" })
+                        <div id="divimagesearch">
+                            <button type="submit"><img src="~/image/search.png" /></button>
+                        </div>
+                    }
+                </div>
+                    <ul class="menu">
+                        <li>
+                            <a href="#">Home Page</a>
+                        </li>
+                        <li>
+                            <a href="#">About</a>
+                        </li>
+                        <li>
+                            <a href="#">Contact</a>
+                        </li>
+                        <li>
+                            <a href="#">Guide</a>
+                        </li>
+                        <li>
+                            <a href="#">Products</a>
+                        </li>
+                    </ul>
+                </div>
+        </section>
+            <section>
+                @*Div menu ben trái biểu hiện sản phẩm mới*@
+                <div id="divmenuleft">
+                    @*chèn partial vào View new phone*@
+                    <div class="activity">
+                        @Html.Action("newphonePartial", "Phone")
+                    </div>
+                </div>
+                @*chèn ảnh vào sileder*@
+                <div id="slider" class="nivoSlider">
+                    @*điền slider vào*@
+                    <img src="~/image/iphone.jpg" />
+                    <img src="~/image/samsumg7.png" />
+                    <img src="~/image/lumia-950-and-lumia-950xl-data.png" />
+                    <img src="~/image/lumia-950xl1.png" />
+                </div>
+                <div style="clear:both"></div>
+            </section>
+                @*div body*@
+                <div id="content">
+                    @RenderBody()
+                </div>
+            
+            <section>
+                @*chủ đề*@
+                <div id="theme">
+                    @Html.Action("ThemePartial", "Theme")
+                </div>
+
+            </section>
+            <div style="clear:both"></div>
+            @*div nhà sản xuất*@
+            <section class="blank items">
+                <div id="sanxuattrai">
+                    <div class="item">
+                        <div class="item-info">
+                            @Html.Action("manufacturerPartial", "manufacturer")
+                        </div>
+                        <img src="http://lorempixel.com/400/300/" alt="Image">
+                    </div>
+                </div>
+                <div id="sanxuatphai">
+                     @RenderSection("detail",false)
+                </div>
+                <div>
+                    <a href="#" class="button button-buy">Chào quý khách hẹn gặp lại quý khách</a>
+                </div>
+            </section>
+        </div>
+    @*scrip chạy slider*@
+
+    <script type="text/javascript">
+        $(window).load(function () {
+            $('#slider').nivoSlider({
+                controlNav: false,
+                nextText: '',
+                prevText:''
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+﻿@using managermentSmartphone.Models;
+@model List<theme>
+
+@{
+    ViewBag.Title = "Subjectcategory";
+    Layout = "~/Views/layout/userLayout.cshtml";
+}
+
+<h2>Subjectcategory</h2>
+@*hiển thị tất cả chủ đề*@
+@foreach (var item in Model)
+{
+    <a id="bttheme" style="width:250px;font-size:11pt;color:aliceblue;
+     background-color:#0055bd;text-decoration:none" href="@Url.Action("Phonesubject", new {@codetheme=item.codetheme})"
+       class="button button-submit">@item.nametheme</a>
+    <br />
+    <br />
+}

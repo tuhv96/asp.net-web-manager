@@ -1,0 +1,16 @@
+﻿@using managermentSmartphone.Models;
+@model List<manufacturer>
+@{
+    ViewBag.Title = "Listofmanufacturers";
+    Layout = "~/Views/layout/userLayout.cshtml";
+}
+@*hiển thị danh sách nhà xuất bản*@
+@foreach (var item in Model)
+{
+    <a id="bttheme" style="width:250px;font-size:11pt;color:aliceblue;
+     background-color:#0055bd;text-decoration:none" href="@Url.Action("Listofmanufacturers", new { @codecodemanufacturer = item.codemanufacturer })"
+       class="button button-submit">@item.namemanufacturer</a>
+    <br />
+    <br />
+}
+

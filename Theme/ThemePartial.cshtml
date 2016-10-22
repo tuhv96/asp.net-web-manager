@@ -1,0 +1,16 @@
+﻿@using managermentSmartphone.Models;
+@model List<theme>
+
+<hr />
+<h2 style="margin-left:2%;font-weight:normal;color:black">Subject category</h2>
+@foreach (var item in Model)
+{
+    <a id="bttheme" style="width:250px;font-size:11pt;color:aliceblue;
+     background-color:#0055bd;text-decoration:none" href="@Url.Action("Phonesubject", new {@codetheme=item.codetheme})"
+     class="button button-submit">@item.nametheme</a>
+}
+<br />
+<br />
+<a id="bttheme" style="width:250px;font-size:11pt;color:aliceblue;
+     background-color:#00a200;text-decoration:none" href="@Url.Action("Subjectcategory")"
+   class="button button-submit">View More..</a>

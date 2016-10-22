@@ -1,0 +1,13 @@
+﻿@using managermentSmartphone.Models;
+@model SmartPhone
+@{
+    ViewBag.Title = "viewDetail";
+    Layout = "~/Views/layout/userLayout.cshtml";
+}
+@*thông tin phone chi tiết*@
+<div><img src="@Url.Content("~/img/"+Model.imageSmartphone)" width="250" height="300"/></div>
+<div>Code SmartPhone: @Model.codeSmartphone</div>
+<div>Name SmartPhone:  @Model.nameSmartphone</div>
+<div>Description: @Model.description</div>
+<div>Price: @Model.price</div>
+

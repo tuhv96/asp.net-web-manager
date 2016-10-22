@@ -1,0 +1,464 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SmartPhoneManagermentModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="customers">
+          <Key>
+            <PropertyRef Name="codecustomer" />
+          </Key>
+          <Property Name="codecustomer" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fullname" Type="varchar" MaxLength="50" />
+          <Property Name="account" Type="varchar" MaxLength="50" />
+          <Property Name="password" Type="nchar" MaxLength="10" />
+          <Property Name="email" Type="nchar" MaxLength="100" />
+          <Property Name="address" Type="nchar" MaxLength="200" />
+          <Property Name="phone" Type="varchar" MaxLength="50" />
+          <Property Name="gender" Type="nchar" MaxLength="5" />
+          <Property Name="dob" Type="datetime" />
+        </EntityType>
+        <EntityType Name="lineItems">
+          <Key>
+            <PropertyRef Name="codeorder" />
+            <PropertyRef Name="codeSmartphone" />
+          </Key>
+          <Property Name="codeorder" Type="int" Nullable="false" />
+          <Property Name="codeSmartphone" Type="int" Nullable="false" />
+          <Property Name="number" Type="int" />
+          <Property Name="unitprice" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="manufacturer">
+          <Key>
+            <PropertyRef Name="codemanufacturer" />
+          </Key>
+          <Property Name="codemanufacturer" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="namemanufacturer" Type="nvarchar" MaxLength="50" />
+          <Property Name="address" Type="nvarchar" MaxLength="200" />
+          <Property Name="phone" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="odrers">
+          <Key>
+            <PropertyRef Name="codeorders" />
+          </Key>
+          <Property Name="codeorders" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="payment" Type="int" />
+          <Property Name="deliverystatus" Type="int" />
+          <Property Name="ordersdate" Type="datetime" />
+          <Property Name="shippingdate" Type="datetime" />
+          <Property Name="codecustomer" Type="int" />
+        </EntityType>
+        <EntityType Name="SmartPhone">
+          <Key>
+            <PropertyRef Name="codeSmartphone" />
+          </Key>
+          <Property Name="codeSmartphone" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nameSmartphone" Type="nvarchar" MaxLength="50" />
+          <Property Name="price" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="description" Type="nvarchar(max)" />
+          <Property Name="imageSmartphone" Type="nvarchar" MaxLength="50" />
+          <Property Name="dateupdated" Type="datetime" />
+          <Property Name="numberExistence" Type="int" />
+          <Property Name="codemanufacturer" Type="int" />
+          <Property Name="codetheme" Type="int" />
+          <Property Name="news" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="theme">
+          <Key>
+            <PropertyRef Name="codetheme" />
+          </Key>
+          <Property Name="codetheme" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nametheme" Type="nchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_lineItems_odrers">
+          <End Role="odrers" Type="Self.odrers" Multiplicity="1" />
+          <End Role="lineItems" Type="Self.lineItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="odrers">
+              <PropertyRef Name="codeorders" />
+            </Principal>
+            <Dependent Role="lineItems">
+              <PropertyRef Name="codeorder" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_lineItems_SmartPhone">
+          <End Role="SmartPhone" Type="Self.SmartPhone" Multiplicity="1" />
+          <End Role="lineItems" Type="Self.lineItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SmartPhone">
+              <PropertyRef Name="codeSmartphone" />
+            </Principal>
+            <Dependent Role="lineItems">
+              <PropertyRef Name="codeSmartphone" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_odrers_customers">
+          <End Role="customers" Type="Self.customers" Multiplicity="0..1" />
+          <End Role="odrers" Type="Self.odrers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customers">
+              <PropertyRef Name="codecustomer" />
+            </Principal>
+            <Dependent Role="odrers">
+              <PropertyRef Name="codecustomer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SmartPhone_manufacturer">
+          <End Role="manufacturer" Type="Self.manufacturer" Multiplicity="0..1" />
+          <End Role="SmartPhone" Type="Self.SmartPhone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="manufacturer">
+              <PropertyRef Name="codemanufacturer" />
+            </Principal>
+            <Dependent Role="SmartPhone">
+              <PropertyRef Name="codemanufacturer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SmartPhone_topic">
+          <End Role="theme" Type="Self.theme" Multiplicity="0..1" />
+          <End Role="SmartPhone" Type="Self.SmartPhone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="theme">
+              <PropertyRef Name="codetheme" />
+            </Principal>
+            <Dependent Role="SmartPhone">
+              <PropertyRef Name="codetheme" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SmartPhoneManagermentModelStoreContainer">
+          <EntitySet Name="customers" EntityType="Self.customers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="lineItems" EntityType="Self.lineItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="manufacturer" EntityType="Self.manufacturer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="odrers" EntityType="Self.odrers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SmartPhone" EntityType="Self.SmartPhone" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="theme" EntityType="Self.theme" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_lineItems_odrers" Association="Self.FK_lineItems_odrers">
+            <End Role="odrers" EntitySet="odrers" />
+            <End Role="lineItems" EntitySet="lineItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_lineItems_SmartPhone" Association="Self.FK_lineItems_SmartPhone">
+            <End Role="SmartPhone" EntitySet="SmartPhone" />
+            <End Role="lineItems" EntitySet="lineItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_odrers_customers" Association="Self.FK_odrers_customers">
+            <End Role="customers" EntitySet="customers" />
+            <End Role="odrers" EntitySet="odrers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SmartPhone_manufacturer" Association="Self.FK_SmartPhone_manufacturer">
+            <End Role="manufacturer" EntitySet="manufacturer" />
+            <End Role="SmartPhone" EntitySet="SmartPhone" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SmartPhone_topic" Association="Self.FK_SmartPhone_topic">
+            <End Role="theme" EntitySet="theme" />
+            <End Role="SmartPhone" EntitySet="SmartPhone" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SmartPhoneManagermentModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="customers">
+          <Key>
+            <PropertyRef Name="codecustomer" />
+          </Key>
+          <Property Name="codecustomer" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fullname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="account" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="address" Type="String" MaxLength="200" FixedLength="true" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="gender" Type="String" MaxLength="5" FixedLength="true" Unicode="true" />
+          <Property Name="dob" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="odrers" Relationship="Self.FK_odrers_customers" FromRole="customers" ToRole="odrers" />
+        </EntityType>
+        <EntityType Name="lineItems">
+          <Key>
+            <PropertyRef Name="codeorder" />
+            <PropertyRef Name="codeSmartphone" />
+          </Key>
+          <Property Name="codeorder" Type="Int32" Nullable="false" />
+          <Property Name="codeSmartphone" Type="Int32" Nullable="false" />
+          <Property Name="number" Type="Int32" />
+          <Property Name="unitprice" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="odrers" Relationship="Self.FK_lineItems_odrers" FromRole="lineItems" ToRole="odrers" />
+          <NavigationProperty Name="SmartPhone" Relationship="Self.FK_lineItems_SmartPhone" FromRole="lineItems" ToRole="SmartPhone" />
+        </EntityType>
+        <EntityType Name="manufacturer">
+          <Key>
+            <PropertyRef Name="codemanufacturer" />
+          </Key>
+          <Property Name="codemanufacturer" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="namemanufacturer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="address" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="SmartPhone" Relationship="Self.FK_SmartPhone_manufacturer" FromRole="manufacturer" ToRole="SmartPhone" />
+        </EntityType>
+        <EntityType Name="odrers">
+          <Key>
+            <PropertyRef Name="codeorders" />
+          </Key>
+          <Property Name="codeorders" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="payment" Type="Int32" />
+          <Property Name="deliverystatus" Type="Int32" />
+          <Property Name="ordersdate" Type="DateTime" Precision="3" />
+          <Property Name="shippingdate" Type="DateTime" Precision="3" />
+          <Property Name="codecustomer" Type="Int32" />
+          <NavigationProperty Name="customers" Relationship="Self.FK_odrers_customers" FromRole="odrers" ToRole="customers" />
+          <NavigationProperty Name="lineItems" Relationship="Self.FK_lineItems_odrers" FromRole="odrers" ToRole="lineItems" />
+        </EntityType>
+        <EntityType Name="SmartPhone">
+          <Key>
+            <PropertyRef Name="codeSmartphone" />
+          </Key>
+          <Property Name="codeSmartphone" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nameSmartphone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="price" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="imageSmartphone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="dateupdated" Type="DateTime" Precision="3" />
+          <Property Name="numberExistence" Type="Int32" />
+          <Property Name="codemanufacturer" Type="Int32" />
+          <Property Name="codetheme" Type="Int32" />
+          <Property Name="news" Type="Int32" />
+          <NavigationProperty Name="lineItems" Relationship="Self.FK_lineItems_SmartPhone" FromRole="SmartPhone" ToRole="lineItems" />
+          <NavigationProperty Name="manufacturer" Relationship="Self.FK_SmartPhone_manufacturer" FromRole="SmartPhone" ToRole="manufacturer" />
+          <NavigationProperty Name="theme" Relationship="Self.FK_SmartPhone_topic" FromRole="SmartPhone" ToRole="theme" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="theme">
+          <Key>
+            <PropertyRef Name="codetheme" />
+          </Key>
+          <Property Name="codetheme" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nametheme" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="SmartPhone" Relationship="Self.FK_SmartPhone_topic" FromRole="theme" ToRole="SmartPhone" />
+        </EntityType>
+        <Association Name="FK_odrers_customers">
+          <End Role="customers" Type="Self.customers" Multiplicity="0..1" />
+          <End Role="odrers" Type="Self.odrers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="customers">
+              <PropertyRef Name="codecustomer" />
+            </Principal>
+            <Dependent Role="odrers">
+              <PropertyRef Name="codecustomer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_lineItems_odrers">
+          <End Role="odrers" Type="Self.odrers" Multiplicity="1" />
+          <End Role="lineItems" Type="Self.lineItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="odrers">
+              <PropertyRef Name="codeorders" />
+            </Principal>
+            <Dependent Role="lineItems">
+              <PropertyRef Name="codeorder" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_lineItems_SmartPhone">
+          <End Role="SmartPhone" Type="Self.SmartPhone" Multiplicity="1" />
+          <End Role="lineItems" Type="Self.lineItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SmartPhone">
+              <PropertyRef Name="codeSmartphone" />
+            </Principal>
+            <Dependent Role="lineItems">
+              <PropertyRef Name="codeSmartphone" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SmartPhone_manufacturer">
+          <End Role="manufacturer" Type="Self.manufacturer" Multiplicity="0..1" />
+          <End Role="SmartPhone" Type="Self.SmartPhone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="manufacturer">
+              <PropertyRef Name="codemanufacturer" />
+            </Principal>
+            <Dependent Role="SmartPhone">
+              <PropertyRef Name="codemanufacturer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SmartPhone_topic">
+          <End Role="theme" Type="Self.theme" Multiplicity="0..1" />
+          <End Role="SmartPhone" Type="Self.SmartPhone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="theme">
+              <PropertyRef Name="codetheme" />
+            </Principal>
+            <Dependent Role="SmartPhone">
+              <PropertyRef Name="codetheme" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SmartPhoneManagermentEntitiy" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="customers" EntityType="Self.customers" />
+          <EntitySet Name="lineItems" EntityType="Self.lineItems" />
+          <EntitySet Name="manufacturer" EntityType="Self.manufacturer" />
+          <EntitySet Name="odrers" EntityType="Self.odrers" />
+          <EntitySet Name="SmartPhone" EntityType="Self.SmartPhone" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="theme" EntityType="Self.theme" />
+          <AssociationSet Name="FK_odrers_customers" Association="Self.FK_odrers_customers">
+            <End Role="customers" EntitySet="customers" />
+            <End Role="odrers" EntitySet="odrers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_lineItems_odrers" Association="Self.FK_lineItems_odrers">
+            <End Role="odrers" EntitySet="odrers" />
+            <End Role="lineItems" EntitySet="lineItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_lineItems_SmartPhone" Association="Self.FK_lineItems_SmartPhone">
+            <End Role="SmartPhone" EntitySet="SmartPhone" />
+            <End Role="lineItems" EntitySet="lineItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SmartPhone_manufacturer" Association="Self.FK_SmartPhone_manufacturer">
+            <End Role="manufacturer" EntitySet="manufacturer" />
+            <End Role="SmartPhone" EntitySet="SmartPhone" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SmartPhone_topic" Association="Self.FK_SmartPhone_topic">
+            <End Role="theme" EntitySet="theme" />
+            <End Role="SmartPhone" EntitySet="SmartPhone" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SmartPhoneManagermentModelStoreContainer" CdmEntityContainer="SmartPhoneManagermentEntitiy">
+          <EntitySetMapping Name="customers">
+            <EntityTypeMapping TypeName="SmartPhoneManagermentModel.customers">
+              <MappingFragment StoreEntitySet="customers">
+                <ScalarProperty Name="codecustomer" ColumnName="codecustomer" />
+                <ScalarProperty Name="fullname" ColumnName="fullname" />
+                <ScalarProperty Name="account" ColumnName="account" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="dob" ColumnName="dob" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="lineItems">
+            <EntityTypeMapping TypeName="SmartPhoneManagermentModel.lineItems">
+              <MappingFragment StoreEntitySet="lineItems">
+                <ScalarProperty Name="codeorder" ColumnName="codeorder" />
+                <ScalarProperty Name="codeSmartphone" ColumnName="codeSmartphone" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="unitprice" ColumnName="unitprice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="manufacturer">
+            <EntityTypeMapping TypeName="SmartPhoneManagermentModel.manufacturer">
+              <MappingFragment StoreEntitySet="manufacturer">
+                <ScalarProperty Name="codemanufacturer" ColumnName="codemanufacturer" />
+                <ScalarProperty Name="namemanufacturer" ColumnName="namemanufacturer" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="odrers">
+            <EntityTypeMapping TypeName="SmartPhoneManagermentModel.odrers">
+              <MappingFragment StoreEntitySet="odrers">
+                <ScalarProperty Name="codeorders" ColumnName="codeorders" />
+                <ScalarProperty Name="payment" ColumnName="payment" />
+                <ScalarProperty Name="deliverystatus" ColumnName="deliverystatus" />
+                <ScalarProperty Name="ordersdate" ColumnName="ordersdate" />
+                <ScalarProperty Name="shippingdate" ColumnName="shippingdate" />
+                <ScalarProperty Name="codecustomer" ColumnName="codecustomer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SmartPhone">
+            <EntityTypeMapping TypeName="SmartPhoneManagermentModel.SmartPhone">
+              <MappingFragment StoreEntitySet="SmartPhone">
+                <ScalarProperty Name="codeSmartphone" ColumnName="codeSmartphone" />
+                <ScalarProperty Name="nameSmartphone" ColumnName="nameSmartphone" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="imageSmartphone" ColumnName="imageSmartphone" />
+                <ScalarProperty Name="dateupdated" ColumnName="dateupdated" />
+                <ScalarProperty Name="numberExistence" ColumnName="numberExistence" />
+                <ScalarProperty Name="codemanufacturer" ColumnName="codemanufacturer" />
+                <ScalarProperty Name="codetheme" ColumnName="codetheme" />
+                <ScalarProperty Name="news" ColumnName="news" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="SmartPhoneManagermentModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="theme">
+            <EntityTypeMapping TypeName="SmartPhoneManagermentModel.theme">
+              <MappingFragment StoreEntitySet="theme">
+                <ScalarProperty Name="codetheme" ColumnName="codetheme" />
+                <ScalarProperty Name="nametheme" ColumnName="nametheme" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

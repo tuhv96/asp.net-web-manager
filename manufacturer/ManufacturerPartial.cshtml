@@ -1,0 +1,9 @@
+﻿@using managermentSmartphone.Models;
+@model List<manufacturer>
+
+<h1><strong>Manufacturer</strong></h1>
+@foreach (var item in Model)
+{
+    <div><a href="@Url.Action("phoneinManufacturer", new { @codemanufacturer = item.codemanufacturer})">@item.namemanufacturer</a></div>
+}
+<div><a href="@Url.Action("Listofmanufacturers")">Orther Manufacturer</a></div>

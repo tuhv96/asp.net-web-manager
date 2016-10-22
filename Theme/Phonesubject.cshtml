@@ -1,0 +1,40 @@
+﻿@using managermentSmartphone.Models;
+@model List<SmartPhone>
+<link href="~/Content/HomeCss.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "Phonesubject";
+    Layout = "~/Views/layout/userLayout.cshtml";
+}
+<div id="ListPrd"><h1>Us Products</h1></div>
+@if (Model.Count == 0)
+{
+    <h1 id="center">@ViewBag.Phone</h1>
+}
+@{int i = 0;}
+@foreach (var item in Model)
+{
+    i++;
+    <div id="Products">
+        <div id="img"><img src="@Url.Content("~/img/"+item.imageSmartphone)" width="200" height="250"></div>
+        <div id="information">
+            @*nếu tên phone dài hơn 30 kí tự lấy từ kí tự 0 -> 30*@
+
+            @*muon hien thi bao nhieu san pham thi tan hay giam so lan i muon chia*@
+            @if (item.nameSmartphone.Length < 30)
+            {
+                <div id="namephone" title="@item.nameSmartphone">@item.nameSmartphone</div>
+            }
+            else
+            {
+                <div id="namephone" title="@item.nameSmartphone">@item.nameSmartphone.Substring(0, 30)</div>
+            }
+            <div id="price" style="color:orange"><font color="green"></font> @String.Format("Price is: {0:0,00}", item.price);</div>
+        </div>
+    </div>
+    if (i % 2 == 0)
+    {
+        <div style="clear:both"></div>
+    }
+
+}
+
